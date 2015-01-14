@@ -1,0 +1,2 @@
+ice:10:1.5:nis
+water:15:0.33:usd
