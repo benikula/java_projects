@@ -19,6 +19,7 @@ public class BillReader {
 		this.splitter = splitter;
 	}
 	
+	
 	public void init() throws IOException {
 		br = new BufferedReader(new FileReader(fileName));
 	}
