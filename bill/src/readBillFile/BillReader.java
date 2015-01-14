@@ -1,58 +1,19 @@
 package readBillFile;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
-public class BillReader {
-	
-	private String fileName;
-	private String splitter;
-	
-	private BufferedReader br = null;
-	private String line;
-	private String[] lineParts;
-	
-	
-	public BillReader(String fileName, String splitter) {
-		this.fileName = fileName;
-		this.splitter = splitter;
-	}
-	
-	
-	public void init() throws IOException {
-		br = new BufferedReader(new FileReader(fileName));
-	}
-	
-	@Override
-	protected void finalize() throws Throwable {
-		br.close();
-	}
+public interface BillReader {
 
-	public boolean isReady() {
-		try {
-			return br.ready();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+	public abstract void init() throws IOException;
 
-	public void readLine() throws IOException {
-		line = br.readLine();
-		lineParts = line.split(splitter);
-	}
+	public abstract boolean isReady();
 
-	public int getQuantity() {
-		return Integer.parseInt(lineParts[1]);
-	}
+	public abstract void readLine() throws IOException;
 
-	public double getValue() {
-		return Double.parseDouble(lineParts[2]);
-	}
+	public abstract int getQuantity();
 
-	public String getCurrency() {
-		return lineParts[3];
-	}
+	public abstract double getValue();
+
+	public abstract String getCurrency();
 
 }

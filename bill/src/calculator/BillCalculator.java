@@ -5,7 +5,7 @@ import java.io.IOException;
 import rater.Rater;
 import readBillFile.BillReader;
 
-public class BillCalculator {
+public class BillCalculator implements Calculator {
 	
 	private BillReader billReader;
 	private Rater rater;
@@ -23,6 +23,10 @@ public class BillCalculator {
 		this.currency = currency ;
 	}
 	
+	/* (non-Javadoc)
+	 * @see calculator.Calculator#calculate()
+	 */
+	@Override
 	public double calculate() throws IOException {
 		billReader.init();
 		rater.init();
