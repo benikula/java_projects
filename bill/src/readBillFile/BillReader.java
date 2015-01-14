@@ -8,12 +8,14 @@ public interface BillReader {
 
 	public abstract boolean isReady();
 
-	public abstract void readLine() throws IOException;
+	public BillData getBillData() throws IOException;
+	
+//	public abstract void readLine() throws IOException;
 
-	public abstract int getQuantity();
-
-	public abstract double getValue();
-
-	public abstract String getCurrency();
+//	public abstract int getQuantity();
+//
+//	public abstract double getValue();
+//
+//	public abstract String getCurrency();
 
 }

@@ -3,6 +3,7 @@ package calculator;
 import java.io.IOException;
 
 import rater.Rater;
+import readBillFile.BillData;
 import readBillFile.BillReader;
 
 public class BillCalculator implements Calculator {
@@ -10,12 +11,8 @@ public class BillCalculator implements Calculator {
 	private BillReader billReader;
 	private Rater rater;
 	private String currency;
-	
-	private int currQuantity;
-	private double currValue;
-	private String currCurrency;
 	private double sum = 0; 
-	
+	private BillData data;
 	
 	public BillCalculator(BillReader billReader, Rater rater, String currency) {
 		this.billReader = billReader;
@@ -23,21 +20,13 @@ public class BillCalculator implements Calculator {
 		this.currency = currency ;
 	}
 	
-	/* (non-Javadoc)
-	 * @see calculator.Calculator#calculate()
-	 */
 	@Override
 	public double calculate() throws IOException {
 		billReader.init();
 		rater.init();
 		while(billReader.isReady()) {
-			try {
-				getBillParams();
-				addToSum();
-			} catch (IOException e) {
-				e.printStackTrace();
-				sum += 0;
-			}
+			getBillParams();
+			addToSum();
 		}
 		
 		adjustSumToCurrency();
@@ -45,20 +34,21 @@ public class BillCalculator implements Calculator {
 		return sum;
 	}
 	
-	private void getBillParams() throws IOException {
-		billReader.readLine();
-		currQuantity = billReader.getQuantity();
-		currValue = billReader.getValue();
-		currCurrency = billReader.getCurrency();
+	private void getBillParams() {
+		try {
+			data = billReader.getBillData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		System.out.println(currQuantity + ":" + currValue + ":" + currCurrency);
+		System.out.println(data.quantity + ":" + data.value + ":" + data.currency);
 	}
 
 	private void addToSum() {
 		double currRate;
 		
-		currRate = rater.getRate(currCurrency);
-		sum += (currRate * currQuantity * currValue);
+		currRate = rater.getRate(data.currency);
+		sum += (currRate * data.quantity * data.value);
 		
 	}
 
@@ -70,6 +60,5 @@ public class BillCalculator implements Calculator {
 		
 		currRate = rater.getRate(currency);
 		sum /= currRate;
-		
 	}
 }

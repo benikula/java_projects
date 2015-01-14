@@ -12,7 +12,7 @@ public class BillFileReader implements BillReader {
 	private BufferedReader br = null;
 	private String line;
 	private String[] lineParts;
-	
+	private BillData data = new BillData();
 	
 	public BillFileReader(String fileName, String splitter) {
 		this.fileName = fileName;
@@ -20,9 +20,7 @@ public class BillFileReader implements BillReader {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see readBillFile.BillReader#init()
-	 */
+	
 	@Override
 	public void init() throws IOException {
 		br = new BufferedReader(new FileReader(fileName));
@@ -33,10 +31,7 @@ public class BillFileReader implements BillReader {
 		br.close();
 	}
 
-	/* (non-Javadoc)
-	 * @see readBillFile.BillReader#isReady()
-	 */
-	@Override
+		@Override
 	public boolean isReady() {
 		try {
 			return br.ready();
@@ -45,37 +40,31 @@ public class BillFileReader implements BillReader {
 		}
 		return false;
 	}
+		
+	public BillData getBillData() throws IOException {
+		readLine();
+		data.quantity = getQuantity();
+		data.value = getValue();
+		data.currency = getCurrency();
+		
+		return data;
+	}
+	
 
-	/* (non-Javadoc)
-	 * @see readBillFile.BillReader#readLine()
-	 */
-	@Override
-	public void readLine() throws IOException {
+	private void readLine() throws IOException {
 		line = br.readLine();
 		lineParts = line.split(splitter);
 	}
 
-	/* (non-Javadoc)
-	 * @see readBillFile.BillReader#getQuantity()
-	 */
-	@Override
-	public int getQuantity() {
+	private int getQuantity() {
 		return Integer.parseInt(lineParts[1]);
 	}
 
-	/* (non-Javadoc)
-	 * @see readBillFile.BillReader#getValue()
-	 */
-	@Override
-	public double getValue() {
+	private double getValue() {
 		return Double.parseDouble(lineParts[2]);
 	}
 
-	/* (non-Javadoc)
-	 * @see readBillFile.BillReader#getCurrency()
-	 */
-	@Override
-	public String getCurrency() {
+	private String getCurrency() {
 		return lineParts[3];
 	}
 

@@ -16,9 +16,6 @@ public class FileRater implements Rater {
 		this.fileName = fileName;
 	}
 	
-	/* (non-Javadoc)
-	 * @see rater.Rater#init()
-	 */
 	@Override
 	public void init() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -34,9 +31,6 @@ public class FileRater implements Rater {
 		br.close();
 	}
 	
-	/* (non-Javadoc)
-	 * @see rater.Rater#getRate(java.lang.String)
-	 */
 	@Override
 	public double getRate(String currency) throws NoSuchElementException {
 		Double d = rates.get(currency);
@@ -47,23 +41,4 @@ public class FileRater implements Rater {
 		return d;
 	}
 	
-//	public double getRate(String currency) throws IOException {
-//		BufferedReader br = new BufferedReader(new FileReader(fileName));
-//		String line;
-//		try {
-//			while((line = br.readLine()) != null) {
-//			    String[] words = line.split("=");
-//
-//			    if (words[0].equalsIgnoreCase(currency)) {
-//			    	br.close();
-//			    	
-//			    	return Double.parseDouble(words[1]);
-//			    }
-//			}
-//		} catch (NumberFormatException | IOException e) {
-//			e.printStackTrace();
-//		}
-//		br.close();
-//		return 1;
-//	}
 }
